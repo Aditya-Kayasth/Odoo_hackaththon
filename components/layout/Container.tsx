@@ -1,7 +1,9 @@
 import { Children } from "react";
 
 const Container = ({ children }: { children: React.ReactNode }) => {
-  return <div className="max-w-[1920px] mx-auto px-4 py-4 xl:px-25">{children}</div>;
+  return (
+    <div className="w-max-[1920px] mx-auto xl:px-10">{children}</div>
+  );
 };
 
 export default Container;
