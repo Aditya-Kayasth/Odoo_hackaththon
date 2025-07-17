@@ -7,12 +7,12 @@ import Profile from "./Profile";
 
 const NavBar = () => {
   return (
-    <nav className="sticky top-0 z-50 shadow-lg dark:shadow-md dark:shadow-gray-900 dark:bg-gray-950 dark:text-gray-300">
+    <nav className="w-full sticky top-0 z-50 shadow-lg dark:shadow-md dark:shadow-gray-900 dark:bg-gray-950 dark:text-gray-300">
       <Container>
         <div className="flex justify-between items-center gap-8 ">
           <div className="flex items-center gap-1 cursor-pointer ">
-            <ImBlogger/>
-            <div className="font-bold">
+            <ImBlogger size={20}/>
+            <div className="font-bold text-xl">
               <h1>- LOGGER</h1>
             </div>
           </div>

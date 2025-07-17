@@ -24,7 +24,7 @@ const Profile = () => {
       <DropdownMenuTrigger >
         <Avatar>
           <AvatarImage src=""/>
-          <AvatarFallback className="border-2 border-gray-300 dark:border-gray-700">
+          <AvatarFallback className=" align-center border-gray-300 dark:border-gray-700">
             <UserRound />
           </AvatarFallback>
         </Avatar>

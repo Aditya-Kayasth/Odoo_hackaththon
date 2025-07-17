@@ -29,7 +29,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "antialiased flex flex-col min-h-screen px-2",
+          "antialiased flex flex-col min-h-screen px-0",
           poppins.variable
         )}
       >
