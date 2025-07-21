@@ -24,7 +24,7 @@ const RegisterForm = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col w-full max-w-[95vw] sm:max-w-[400px] md:max-w-[500px] m-auto mt-8 gap-2 px-2"
     >
-      <Heading title={`Login to  B-LOGGER`} center lg />
+      <Heading title={`Register to  B-LOGGER`} center lg />
       <FormField
         id="name"
         placeholder="Enter name"

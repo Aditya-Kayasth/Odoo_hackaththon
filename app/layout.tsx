@@ -33,10 +33,15 @@ export default function RootLayout({
           poppins.variable
         )}
       >
-        <ThemeProvider attribute={"class"} defaultTheme="system" enableSystem disableTransitionOnChange>
+        <ThemeProvider
+          attribute={"class"}
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           <NavBar />
           <main className="flex-grow">{children}</main>
-          <footer className="bg-gray-100 text-center py-3 dark:bg-gray-950 dark:text-gray-300">
+          <footer className="bg-gray-100 text-center py-2 sm:py-3 text-xs sm:text-base dark:bg-gray-950 dark:text-gray-300">
             <p>
               © {new Date().getFullYear()} Full Stack Blog. All rights reserved.
             </p>

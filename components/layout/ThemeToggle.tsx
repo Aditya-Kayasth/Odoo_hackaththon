@@ -10,7 +10,7 @@ function ThemeToggle() {
   }
 
   return (
-    <button onClick={toggleTheme}>
+    <button onClick={toggleTheme} className="cursor-pointer">
       <Sun className="hidden dark:block" />
       <Moon className="block dark:hidden" />
     </button>
