@@ -7,6 +7,9 @@ import FormField from "@/components/common/FormField";
 import Button from "@/components/common/Button";
 import Heading from "@/components/common/Heading";
 import SocialAuth from "./SocialAuth";
+import signUp from "@/actions/auth/register";
+import { useState, useTransition } from "react";
+import Altert from "../common/Altert";
 
 const RegisterForm = () => {
   const {
@@ -17,7 +20,21 @@ const RegisterForm = () => {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = (data: RegisterSchemaType) => {};
+  const [error, seterror] = useState<string | undefined>("");
+  const [success, setsuccess] = useState<string | undefined>("");
+
+  const [isLoading, setLoading] = useTransition();
+
+  const onSubmit = (data: RegisterSchemaType) => {
+    setsuccess("");
+    seterror("");
+    setLoading(() => {
+      signUp(data).then((res) => {
+        seterror(res.error);
+        setsuccess(res.success);
+      });
+    });
+  };
 
   return (
     <form
@@ -30,12 +47,14 @@ const RegisterForm = () => {
         placeholder="Enter name"
         register={register}
         errors={errors}
+        disabled={isLoading}
       />
       <FormField
         id="email"
         placeholder="Enter email"
         register={register}
         errors={errors}
+        disabled={isLoading}
       />
       <FormField
         id="password"
@@ -43,6 +62,7 @@ const RegisterForm = () => {
         placeholder="Enter password"
         register={register}
         errors={errors}
+        disabled={isLoading}
       />
       <FormField
         id="confirmPassword"
@@ -50,8 +70,18 @@ const RegisterForm = () => {
         placeholder="Confirm password"
         register={register}
         errors={errors}
+        disabled={isLoading}
       />
-      <Button label="Register" type="submit" outline={true} />
+
+      {error && <Altert message={error} error />}
+      {success && <Altert message={success} success />}
+
+      <Button
+        label={isLoading ? "Loading..." : "Register"}
+        disabled={isLoading}
+        type="submit"
+        outline={true}
+      />
 
       <div className="flex items-center my-2 w-full">
         <hr className="flex-grow border-t border-gray-300 dark:border-gray-800" />
