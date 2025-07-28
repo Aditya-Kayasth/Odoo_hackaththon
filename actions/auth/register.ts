@@ -5,7 +5,7 @@ import { getUserByEmail } from "@/lib/user"
 import { registerSchema, RegisterSchemaType } from "@/schemas/RegisterSchema"
 
 import bcrypt from "bcryptjs"
-import { success } from "zod"
+
 
 async function signUp(values:RegisterSchemaType) {
     
