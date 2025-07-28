@@ -8,6 +8,7 @@ export const getUserByEmail = async(email:string) =>{
                     email: email
                 } 
             })
+            
             return user
         } catch (error) {
             return null
