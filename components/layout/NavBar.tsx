@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ImBlogger } from "react-icons/im";
 import { Menu, X } from "lucide-react";
 import Link from "next/link"; // <-- Add this for routing
@@ -8,9 +8,25 @@ import ThemeToggle from "./ThemeToggle";
 import SearchInput from "./SearchInput";
 import Notifications from "./Notifications";
 import Profile from "./Profile";
+import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
+
+  const session = useSession();
+  const path = usePathname();
+  const isLoggedIn = session.status === "authenticated";
+
+  useEffect(() => {
+    if (!isLoggedIn && path) {
+      const updateSession = async () => {
+        await session.update();
+      };
+
+      updateSession();
+    }
+  }, [path, isLoggedIn]);
 
   return (
     <nav className="w-full sticky top-0 z-50 shadow-lg dark:shadow-lg dark:shadow-gray-900 dark:bg-gray-950 dark:text-gray-300">
@@ -46,20 +62,26 @@ const NavBar = () => {
 
             <div className="flex gap-4 md:gap-8 items-center">
               <ThemeToggle />
-              <Notifications />
-              <Profile />
+              {isLoggedIn && <Notifications />}
+              {isLoggedIn && <Profile />}
               {/* Inline Login/Register Links */}
-              <div className="flex flex-row items-center gap-4">
-                <Link href="/login" className="hover:underline cursor-pointer">
-                  Login
-                </Link>
-                <Link
-                  href="/register"
-                  className="hover:underline cursor-pointer"
-                >
-                  Register
-                </Link>
-              </div>
+              {!isLoggedIn && (
+                <div className="flex flex-row items-center gap-4 font-bold text-lg">
+                  <Link
+                    href="/login"
+                    className="hover:underline cursor-pointer "
+                  >
+                    Login
+                  </Link>
+                  
+                  <Link
+                    href="/register"
+                    className="hover:underline cursor-pointer "
+                  >
+                    Register
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -82,17 +104,23 @@ const NavBar = () => {
               <div className="flex flex-col gap-4">
                 <SearchInput />
                 <ThemeToggle />
-                <Notifications />
-                <Profile />
-                <Link href="/login" className="hover:underline cursor-pointer">
-                  Login
-                </Link>
-                <Link
-                  href="/register"
-                  className="hover:underline cursor-pointer"
-                >
-                  Register
-                </Link>
+                {isLoggedIn && <Notifications />}
+                {isLoggedIn && <Profile />}
+                {!isLoggedIn && (
+                    <Link
+                      href="/login"
+                      className="hover:underline cursor-pointer"
+                    >
+                      Login
+                    </Link>
+                  ) && (
+                    <Link
+                      href="/register"
+                      className="hover:underline cursor-pointer"
+                    >
+                      Register
+                    </Link>
+                  )}
               </div>
             </div>
           </div>
