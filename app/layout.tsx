@@ -3,8 +3,11 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import NavBar from "@/components/layout/NavBar";
-
+import { auth } from "@/auth";
 import { ThemeProvider } from "next-themes";
+
+import { SessionProvider } from "next-auth/react";
+
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -20,12 +23,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const session = await auth(); 
+  
   return (
+
+    <SessionProvider session={session}>
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
@@ -49,5 +57,6 @@ export default function RootLayout({
         </ThemeProvider>
       </body>
     </html>
+    </SessionProvider>
   );
 }
