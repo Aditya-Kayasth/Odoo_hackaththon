@@ -28,10 +28,10 @@ const LoginForm = () => {
   const [isLoading, setLoading] = useTransition();
 
   const onSubmit = (data: LoginSchemaType) => {
-    startTransition(() => {
+    setLoading(() => {
       setsuccess("");
       seterror("");
-      console.log("DATA >>>>>", data);
+
       logIn(data).then((res) => {
         if (res?.error) {
           seterror(res?.error);

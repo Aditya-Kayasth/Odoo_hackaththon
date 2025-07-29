@@ -10,9 +10,11 @@ const SocialAuth = () => {
       redirectTo: Loginredirect,
     });
   };
+
   return (
     <div className="mt-4 flex flex-col items-center gap-3 w-full sm:flex-row sm:justify-center sm:items-center sm:gap-4">
       <Button
+        type="button"
         label="Continue With Google"
         icon={FaGoogle}
         outline
@@ -22,6 +24,7 @@ const SocialAuth = () => {
         }}
       />
       <Button
+        type="button"
         label="Continue With Github"
         icon={FaGithub}
         outline

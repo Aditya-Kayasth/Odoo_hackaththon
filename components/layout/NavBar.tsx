@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { ImBlogger } from "react-icons/im";
 import { Menu, X } from "lucide-react";
-import Link from "next/link"; // <-- Add this for routing
+import Link from "next/link";
 import Container from "./Container";
 import ThemeToggle from "./ThemeToggle";
 import SearchInput from "./SearchInput";
@@ -19,26 +19,22 @@ const NavBar = () => {
   const isLoggedIn = session.status === "authenticated";
 
   useEffect(() => {
-    if (!isLoggedIn && path) {
-      const updateSession = async () => {
-        await session.update();
-      };
-
-      updateSession();
+    if (!isLoggedIn && path && typeof session.update === "function") {
+      session.update();
     }
-  }, [path, isLoggedIn]);
+  }, [path, isLoggedIn, session]);
 
   return (
-    <nav className="w-full sticky top-0 z-50 shadow-lg dark:shadow-lg dark:shadow-gray-900 dark:bg-gray-950 dark:text-gray-300">
+    <nav className="w-full sticky top-0 z-50 shadow-lg dark:shadow-gray-900 dark:bg-gray-950 dark:text-gray-300">
       <Container>
         <div className="flex justify-between items-center gap-2 py-2 px-2">
           {/* Logo */}
-          <div className="flex items-center gap-1 cursor-pointer">
+          <Link href="/" className="flex items-center gap-1 cursor-pointer">
             <ImBlogger size={20} />
             <div className="font-bold text-xl">
               <h1>- LOGGER</h1>
             </div>
-          </div>
+          </Link>
 
           {/* Hamburger menu for mobile */}
           <div className="flex md:hidden items-center gap-2">
@@ -46,7 +42,7 @@ const NavBar = () => {
             <button
               className="ml-2 p-2 rounded focus:outline-none"
               onClick={() => setOpen((v) => !v)}
-              aria-label="Toggle menu"
+              aria-label={open ? "Close menu" : "Open menu"}
             >
               {open ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -64,19 +60,17 @@ const NavBar = () => {
               <ThemeToggle />
               {isLoggedIn && <Notifications />}
               {isLoggedIn && <Profile />}
-              {/* Inline Login/Register Links */}
               {!isLoggedIn && (
                 <div className="flex flex-row items-center gap-4 font-bold text-lg">
                   <Link
                     href="/login"
-                    className="hover:underline cursor-pointer "
+                    className="hover:underline cursor-pointer"
                   >
                     Login
                   </Link>
-                  
                   <Link
                     href="/register"
-                    className="hover:underline cursor-pointer "
+                    className="hover:underline cursor-pointer"
                   >
                     Register
                   </Link>
@@ -107,20 +101,21 @@ const NavBar = () => {
                 {isLoggedIn && <Notifications />}
                 {isLoggedIn && <Profile />}
                 {!isLoggedIn && (
+                  <>
                     <Link
                       href="/login"
                       className="hover:underline cursor-pointer"
                     >
                       Login
                     </Link>
-                  ) && (
                     <Link
                       href="/register"
                       className="hover:underline cursor-pointer"
                     >
                       Register
                     </Link>
-                  )}
+                  </>
+                )}
               </div>
             </div>
           </div>
