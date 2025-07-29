@@ -1,13 +1,12 @@
-import Container  from '@/components/layout/Container'
-import React from 'react'
-import RegisterForm from '@/components/auth/RegisterForm'
+import Container from "@/components/layout/Container";
+import RegisterForm from "@/components/auth/RegisterForm";
 
-function page() {
+function page () {
   return (
     <Container>
       <RegisterForm />
     </Container>
-  )
-}
+  );
+};
 
-export default page
+export default page;
