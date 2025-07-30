@@ -17,4 +17,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         data: {emailVerified: new Date()}
       })
     }
-}})
+  },
+
+  pages : {
+    signIn: "/login",
+  }
+})
