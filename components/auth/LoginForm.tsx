@@ -9,8 +9,8 @@ import Heading from "@/components/common/Heading";
 import SocialAuth from "./SocialAuth";
 import { startTransition, useState, useTransition } from "react";
 import logIn from "@/actions/auth/login";
-import Altert from "../common/Altert";
-import { useRouter } from "next/navigation";
+import Alert from "../common/Alert";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Loginredirect } from "@/routes";
 
 const LoginForm = () => {
@@ -27,23 +27,30 @@ const LoginForm = () => {
   const router = useRouter();
   const [isLoading, setLoading] = useTransition();
 
-  const onSubmit = (data: LoginSchemaType) => {
-    setLoading(() => {
-      setsuccess("");
-      seterror("");
+  const searchParams = useSearchParams();
 
+  const errorURL =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Email in use with different provider"
+      : "";
+
+  const onSubmit = (data: LoginSchemaType) => {
+
+
+
+    seterror("");
+
+    setLoading(() => {
+      
       logIn(data).then((res) => {
         if (res?.error) {
+          router.replace("/login");
           seterror(res?.error);
-          console.log("ERROR >>>>>", res?.error);
         }
         if (!res?.error) {
+          setsuccess(res?.success)
           return router.push(Loginredirect);
         }
-        // if (res?.success) {
-        //   setsuccess(res?.success);
-        //   console.log("SUCCESS >>>>>", res?.success, res.email, res.pass);
-        // }
       });
     });
   };
@@ -68,7 +75,9 @@ const LoginForm = () => {
         errors={errors}
       />
 
-      {error && <Altert message={error} error />}
+      {error && <Alert message={error} error />}
+      {success && <Alert message={success} success />}
+
       <Button
         label={isLoading ? "Loading..." : "Login"}
         disabled={isLoading}
@@ -84,6 +93,7 @@ const LoginForm = () => {
         <hr className="flex-grow border-t border-gray-300 dark:border-gray-800" />
       </div>
       <div className="flex flex-col items-center w-full">
+        {errorURL && <Alert message={errorURL} error />}
         <SocialAuth />
       </div>
     </form>
