@@ -9,7 +9,7 @@ import Heading from "@/components/common/Heading";
 import SocialAuth from "./SocialAuth";
 import signUp from "@/actions/auth/register";
 import { useState, useTransition } from "react";
-import Altert from "../common/Altert";
+import Alert from "../common/Alert";
 
 const RegisterForm = () => {
   const {
@@ -73,8 +73,8 @@ const RegisterForm = () => {
         disabled={isLoading}
       />
 
-      {error && <Altert message={error} error />}
-      {success && <Altert message={success} success />}
+      {error && <Alert message={error} error />}
+      {success && <Alert message={success} success />}
 
       <Button
         label={isLoading ? "Loading..." : "Register"}
