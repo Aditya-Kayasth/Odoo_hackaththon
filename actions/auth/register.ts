@@ -1,6 +1,7 @@
 "use server"
 
 import { db } from "@/lib/db"
+import {generateEmailVerificationToken,sendVerificationEmail} from "@/lib/emailVerification"
 import { getUserByEmail } from "@/lib/user"
 import { registerSchema, RegisterSchemaType } from "@/schemas/RegisterSchema"
 
@@ -34,7 +35,14 @@ async function signUp(values:RegisterSchemaType) {
         }
     })
 
-    return {success: "User Created!"}
+    const emailVerificationToken = generateEmailVerificationToken(email)
+
+    const {error} = await sendVerificationEmail(email,(await emailVerificationToken).token)
+
+    if (error) {
+        return {error: "Failed to send verification email"}
+    }
+    return {success: "Verification email sent!"}
 }
 
 export default signUp;
