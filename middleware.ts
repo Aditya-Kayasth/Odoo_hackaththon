@@ -8,8 +8,7 @@ const { auth: middleware } = NextAuth(authConfig)
 export default middleware((req) => {
 
     const isLoggedIn = !!req.auth
-
-    console.log("IS LOGGED IN >>>>>", isLoggedIn)
+    
     const nextUrl = req.nextUrl
 
     const isapiRoute = nextUrl.pathname.startsWith(apiAuthPrefix)

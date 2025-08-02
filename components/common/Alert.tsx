@@ -2,7 +2,7 @@ import { IoIosAddCircleOutline, IoIosCheckboxOutline, IoIosInformationCircleOutl
 import { cn } from "@/lib/utils"
 import { BiError } from "react-icons/bi";
 
-const Altert = ({
+const Alert = ({
   success,
   error,
   message,
@@ -27,4 +27,4 @@ const Altert = ({
   </div>;
 };
 
-export default Altert;
+export default Alert;

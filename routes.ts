@@ -1,8 +1,7 @@
-export const publicRoutes = ['/']
+export const publicRoutes = ["/", "/emailVerification"];
 
-export const authRoutes = ["/login","/register"]
+export const authRoutes = ["/login", "/register"];
 
-export const apiAuthPrefix = "/api/auth"
+export const apiAuthPrefix = "/api/auth";
 
-export const Loginredirect = "/User/1"
-
+export const Loginredirect = "/User/1";
