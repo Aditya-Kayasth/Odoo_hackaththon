@@ -2,6 +2,10 @@
 
 import { signIn } from "@/auth";
 import { db } from "@/lib/db";
+import {
+  generateEmailVerificationToken,
+  sendVerificationEmail,
+} from "@/lib/emailVerification";
 import { getUserByEmail } from "@/lib/user";
 import { Loginredirect } from "@/routes";
 import { LoginSchemaType, loginSchema } from "@/schemas/LoginSchema";
@@ -18,18 +22,23 @@ async function logIn(values: LoginSchemaType) {
 
   const user = await getUserByEmail(email);
 
-  // const pass = user?.password
-
-  // if (user && user.password) {
-  //     return {success: "User logged in successfully!", email,pass};
-  // }
   if (!user || !password || !email || !user.password) {
-    return { error: "Invalid Credentials 1" };
+    return { error: "User does not exist!"};
   }
 
-  // if (!user.emailVerified){
-  //     return {error: "Email not verified!"};
-  // }
+  if (!user.emailVerified) {
+    const emailVerificationToken = await generateEmailVerificationToken(email);
+
+    const { error } = await sendVerificationEmail(
+      email,
+      (await emailVerificationToken).token
+    );
+
+    if (error) {
+      return { error: "Failed to send verification email" };
+    }
+    return { success: "Verification email sent!" };
+  }
 
   try {
     await signIn("credentials", { email, password, redirectTo: Loginredirect });
