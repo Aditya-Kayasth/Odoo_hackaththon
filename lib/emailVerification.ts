@@ -17,8 +17,6 @@ export const getVerificationTokenByEmail = async (email: string) => {
 };
 
 export const generateEmailVerificationToken = async (email: string) => {
-  const token = uuidv4();
-  const expires = new Date(new Date().getTime() + 36000 * 1000);
 
   const existingToken = await getVerificationTokenByEmail(email);
 
@@ -29,6 +27,10 @@ export const generateEmailVerificationToken = async (email: string) => {
       },
     });
   }
+
+  const token = uuidv4();
+  const expires = new Date(new Date().getTime() + 36000 * 1000);
+  
   const newToken = await db.emailVerification.create({
     data: { email, token, expiresAt: expires },
   });
