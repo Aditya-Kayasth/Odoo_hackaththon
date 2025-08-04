@@ -7,11 +7,12 @@ import FormField from "@/components/common/FormField";
 import Button from "@/components/common/Button";
 import Heading from "@/components/common/Heading";
 import SocialAuth from "./SocialAuth";
-import { startTransition, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import logIn from "@/actions/auth/login";
 import Alert from "../common/Alert";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Loginredirect } from "@/routes";
+import Link from "next/link";
 
 const LoginForm = () => {
   const {
@@ -35,21 +36,17 @@ const LoginForm = () => {
       : "";
 
   const onSubmit = (data: LoginSchemaType) => {
-
-
-
     seterror("");
 
     setLoading(() => {
-      
       logIn(data).then((res) => {
         if (res?.error) {
           router.replace("/login");
           seterror(res?.error);
         }
         if (!res?.error) {
-          setsuccess(res?.success)
-          return router.push(Loginredirect);
+          setsuccess(res?.success);
+          router.push(Loginredirect);
         }
       });
     });
@@ -95,6 +92,9 @@ const LoginForm = () => {
       <div className="flex flex-col items-center w-full">
         {errorURL && <Alert message={errorURL} error />}
         <SocialAuth />
+      </div>
+      <div className="flex justify-center mt-4 text-sm text-gray-500 dark:text-gray-400">
+        <Link href={"/passwordResetEmail"}>Forgot Password?</Link>
       </div>
     </form>
   );

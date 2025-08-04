@@ -10,12 +10,15 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { FaRegBookmark } from "react-icons/fa";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 const menuButtonClass =
   "flex items-center gap-2 text-sm sm:text-base py-1 w-full text-left transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 focus:bg-gray-200 dark:focus:bg-gray-700 active:bg-gray-200 dark:active:bg-gray-700 rounded-md px-2";
 
 const Profile = () => {
+  const session = useSession();
+  const imageUrl = session.data?.user.image || "";
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
