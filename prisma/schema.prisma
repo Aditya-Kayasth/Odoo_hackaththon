@@ -18,6 +18,8 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  role UserRole @default(USER)
 }
 
 model Account {
@@ -48,4 +50,17 @@ model emailVerification {
   expiresAt DateTime
 
   @@unique([email, token])
+}
+model passwordReset {
+  id        String   @id @default(cuid())
+  email     String   
+  token     String   @unique
+  expiresAt DateTime
+
+  @@unique([email, token])
+}
+
+enum UserRole {
+  USER
+  ADMIN
 }
