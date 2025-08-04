@@ -18,6 +18,8 @@ const NavBar = () => {
   const path = usePathname();
   const isLoggedIn = session.status === "authenticated";
 
+  //console.log("Session Status >>>>>>>>>>>", session);
+
   useEffect(() => {
     if (!isLoggedIn && path && typeof session.update === "function") {
       session.update();
