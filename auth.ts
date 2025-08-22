@@ -1,7 +1,19 @@
-import NextAuth from "next-auth"
+import NextAuth, {type DefaultSession} from "next-auth"
 import authConfig from "./auth.config"
 import {db} from "@/lib/db"
 import { PrismaAdapter } from "@auth/prisma-adapter"
+import { get } from "http"
+import { getUserByEmail } from "./lib/user"
+
+
+declare module "next-auth"{
+  interface Session {
+    user: {
+      role: "USER" | "ADMIN"
+      userId: string
+    } & DefaultSession['user']
+  }
+}
 
  
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -19,7 +31,35 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }
   },
 
+  callbacks: {
+    async jwt({ token }) {
+      if (!token.email) return token
+
+      const user = await getUserByEmail(token.email)
+
+      if (!user) return token
+
+      token.role = user.role
+      token.userId = user.id
+
+      console.log("JWT Token >>>>>>>>>>>", token)
+      return token
+
+    },
+
+  async session({ session, token }) {
+    if (token.role)   session.user.role   = token.role as "USER" | "ADMIN";
+    if (token.userId) session.user.userId = token.userId as string;
+    return session; 
+  },
+},
+    
+    
+  
+
   pages : {
     signIn: "/login",
   }
 })
+
+

@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { FaRegBookmark } from "react-icons/fa";
 import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const menuButtonClass =
   "flex items-center gap-2 text-sm sm:text-base py-1 w-full text-left transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 focus:bg-gray-200 dark:focus:bg-gray-700 active:bg-gray-200 dark:active:bg-gray-700 rounded-md px-2";
@@ -18,12 +19,13 @@ const menuButtonClass =
 const Profile = () => {
   const session = useSession();
   const imageUrl = session.data?.user.image || "";
+  const router = useRouter();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar className="cursor-pointer">
-          <AvatarImage src="" />
+          <AvatarImage src={""} />
           <AvatarFallback className="align-center border-gray-300 dark:border-gray-700">
             <UserRound />
           </AvatarFallback>
@@ -39,7 +41,10 @@ const Profile = () => {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <button className={menuButtonClass}>
+          <button
+            className={menuButtonClass}
+            onClick={() => router.push("/blog/create")}
+          >
             <Pencil size={18} />
             Create Post
           </button>

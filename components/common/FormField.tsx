@@ -42,7 +42,7 @@ const FormField = <T extends FieldValues>({
         type={type}
         {...register(id as Path<T>)}
         className={cn(
-          "w-full p-2 sm:p-3 my-2 outline-none rounded-md disabled:opacity-80 disabled:cursor-not-allowed border border-slate-400 dark:border-slate-700 text-sm sm:text-base",
+          "w-full p-2 sm:p-3 my-2 outline-none rounded-md disabled:opacity-80 disabled:cursor-not-allowed border border-slate-400 dark:border-slate-700",
           errors[id] && "border-red-500",
           inputClassName
         )}
